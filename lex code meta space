@@ -1,0 +1,30 @@
+%{
+#include <stdio.h>   // Yeh header file input-output ke liye hoti hai
+int lines = 0, spaces = 0, tabs = 0, meta = 0, others = 0;  // Counters bana rahe hain har cheez count karne ke liye
+%}
+
+%%
+
+\n      { lines++; }    // Jab bhi naya line milega, lines ka count badh jayega
+" "     { spaces++; }   // Jab bhi ek space milega, spaces ka count badh jayega
+"\t"    { tabs++; }     // Jab bhi tab milega, tabs ka count badh jayega
+[!@#$%^&*()_+=]  { meta++; }  // Special meta characters ka count
+.       { others++; }   // Baaki ke jitne bhi characters hain unko count karega
+
+%%
+
+int main() {
+    printf("Enter input: \n");
+    yylex();  // LEX scanner start karega
+    printf("\nResults:\n");
+    printf("Lines: %d\n", lines);
+    printf("Spaces: %d\n", spaces);
+    printf("Tabs: %d\n", tabs);
+    printf("Meta Characters: %d\n", meta);
+    printf("Other Characters: %d\n", others);
+    return 0;
+}
+
+int yywrap() {
+    return 1;
+}
